@@ -42,13 +42,15 @@ class App
     private $exceptionHandler;
 
     /**
+     * App constructor.
      * @param array $uriPatterns
+     * @param string $resourceNamespacePrefix
      */
-    public function __construct($uriPatterns = [])
+    public function __construct($uriPatterns, $resourceNamespacePrefix = null)
     {
         $this->request = new Request();
         $this->response = new Response();
-        $this->router = new Router($this->request, $this->response, $uriPatterns);
+        $this->router = new Router($this->request, $this->response, $uriPatterns, $resourceNamespacePrefix);
     }
 
     public function matchUriPattern()

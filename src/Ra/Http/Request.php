@@ -36,6 +36,11 @@ class Request
     protected $queryParams;
 
     /**
+     * @var string HTTP body
+     */
+    protected $body;
+
+    /**
      * The request body parsed (if possible) into a PHP array
      *
      * @var null|array
@@ -106,7 +111,11 @@ class Request
 
     public function getBody()
     {
-        return file_get_contents('php://input');
+        if ($this->body === null) {
+            $this->body = file_get_contents('php://input');
+        }
+
+        return $this->body;
     }
 
     public function getParsedBody()

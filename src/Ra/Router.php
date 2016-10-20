@@ -15,9 +15,9 @@ use Ra\Exception\MethodNotAllowedException;
 class Router
 {
     /**
-     * Resource class's prefix
+     * Default resource namespace's prefix
      */
-    const RESOURCE_CLASS_PREFIX = "App\\Resource\\";
+    const DEFAULT_RESOURCE_NAMESPACE_PREFIX = "App\\Resource\\";
 
     /**
      * Default resource name
@@ -59,6 +59,11 @@ class Router
     private $uriPatterns;
 
     /**
+     * @var string
+     */
+    private $resourceNamespacePrefix = null;
+
+    /**
      * Class of resource
      *
      * @var string
@@ -72,16 +77,25 @@ class Router
      */
     private $resourceAction;
 
-    public function __construct(Request $request, Response $response, $uriPatterns)
+    /**
+     * Router constructor.
+     * @param Request $request
+     * @param Response $response
+     * @param $uriPatterns
+     * @param string $resourceNamespacePrefix
+     */
+    public function __construct(Request $request, Response $response, $uriPatterns, $resourceNamespacePrefix = null)
     {
         $this->request = $request;
         $this->response = $response;
         $this->checkUriPatterns($uriPatterns);
+        $this->withResourceNamespacePrefix($resourceNamespacePrefix);
     }
 
     public function callResourceAction()
     {
         $classObject = new $this->resourceClass();
+
         return call_user_func(array($classObject, $this->resourceAction), $this->request, $this->response);
     }
 
@@ -120,7 +134,7 @@ class Router
                     throw new MethodNotAllowedException($this->request, $this->response, $methods);
                 }
                 $lastSegmentIsAttribute = $patternSegments[$patternSegmentsCount - 1][0] == ':';
-                $this->setResourceClassAndAction($nsSegments, $method, $lastSegmentIsAttribute);
+                $this->withResourceClassAndAction($nsSegments, $method, $lastSegmentIsAttribute);
                 break;
             }
         }
@@ -129,7 +143,7 @@ class Router
         }
     }
 
-    private function setResourceClassAndAction($nsSegments, $method, $lastSegmentIsAttribute)
+    private function withResourceClassAndAction($nsSegments, $method, $lastSegmentIsAttribute)
     {
         // Convert. e.g. email_activation => EmailActivation
         foreach ($nsSegments as $k => $segment) {
@@ -145,7 +159,7 @@ class Router
         if ($resourcePath == '') {
             $resourcePath = self::DEFAULT_RESOURCE;
         }
-        $class = str_replace('_', '', self::RESOURCE_CLASS_PREFIX . $resourcePath);
+        $class = str_replace('_', '', $this->resourceNamespacePrefix() . $resourcePath);
         if (!class_exists($class)) {
             throw new \RuntimeException("Class '{$class}' is not found");
         }
@@ -180,5 +194,19 @@ class Router
             }
         }
         $this->uriPatterns = $uriPatterns;
+    }
+
+    private function withResourceNamespacePrefix($resourceNamespacePrefix)
+    {
+        if ($resourceNamespacePrefix === null) {
+            $this->resourceNamespacePrefix = self::DEFAULT_RESOURCE_NAMESPACE_PREFIX;
+        }
+
+        $this->resourceNamespacePrefix = $resourceNamespacePrefix;
+    }
+
+    private function resourceNamespacePrefix()
+    {
+        return $this->resourceNamespacePrefix;
     }
 }
