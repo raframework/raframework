@@ -70,6 +70,10 @@ class Request
             }
             return $body;
         });
+
+        $this->registerMediaTypeParser('application/x-www-form-urlencoded', function ($input) {
+            return $_POST;
+        });
     }
 
     public function getUri()
