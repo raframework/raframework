@@ -200,9 +200,9 @@ class Router
     {
         if ($resourceNamespacePrefix === null) {
             $this->resourceNamespacePrefix = self::DEFAULT_RESOURCE_NAMESPACE_PREFIX;
+        } else {
+            $this->resourceNamespacePrefix = $resourceNamespacePrefix;
         }
-
-        $this->resourceNamespacePrefix = $resourceNamespacePrefix;
     }
 
     private function resourceNamespacePrefix()
