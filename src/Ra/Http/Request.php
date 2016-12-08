@@ -17,7 +17,19 @@ class Request
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
 
+    /**
+     * The request Method
+     *
+     * @var string
+     */
     private $method;
+
+    /**
+     * The original request method (ignoring override)
+     *
+     * @var string
+     */
+    private $originalMethod;
 
     private $uri;
 
@@ -60,6 +72,8 @@ class Request
 
     public function __construct()
     {
+        $this->originalMethod = $this->getServerParams()['REQUEST_METHOD'];
+
         $this->registerMediaTypeParser('application/json', function ($input) {
             if (empty($input)) {
                 return [];
@@ -89,12 +103,38 @@ class Request
         return $this->uri;
     }
 
+    /**
+     * Retrieves the HTTP method of the request.
+     *
+     * @return string Returns the request method.
+     */
     public function getMethod()
     {
         if ($this->method === null) {
-            $this->method = $this->getServerParams()['REQUEST_METHOD'];
+            $this->method = $this->originalMethod;
+
+            // Allowed to override method if the original method is GET or POST
+            if (in_array($this->method, ['GET', 'POST'])) {
+                $queryParams = $this->getQueryParams();
+                if (isset($queryParams['_METHOD']) && $queryParams['_METHOD']) {
+                    $this->method = $queryParams['_METHOD'];
+                }
+            }
         }
+
         return $this->method;
+    }
+
+    /**
+     * Get the original HTTP method (ignore override).
+     *
+     * Note: This method is not part of the PSR-7 standard.
+     *
+     * @return string
+     */
+    public function getOriginalMethod()
+    {
+        return $this->originalMethod;
     }
 
     public function getServerParams()
