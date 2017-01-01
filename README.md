@@ -2,7 +2,7 @@
 A RESTful API framework for the PHP language. 
 
 
-## Usage
+## Getting Started
 
 1.  Create a raframework project name `raproj`
 
