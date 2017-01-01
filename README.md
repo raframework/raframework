@@ -55,7 +55,7 @@ A RESTful API framework for the PHP language.
     }
     ```
 
-6.  Create an index.php file with the following contents:
+6.  Create an `index.php` file with the following contents:
 
     ```php
     <?php
