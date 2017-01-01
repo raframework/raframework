@@ -43,10 +43,10 @@ A RESTful API framework for the PHP language.
     use Ra\Http\Request;
     use Ra\Http\Response;
     
-    // Define resource class.
+    // Define resource's class.
     class Users
     {
-        // Define the resource action.
+        // Define the resource's action.
         public function lis(Request $request, Response $response)
         {
             $data = 'List users...';
@@ -73,8 +73,8 @@ A RESTful API framework for the PHP language.
     // Match the route, and set the resource's action correctly.
     $app->matchUriPattern();
     
-    // Call the resouce's action.
-    // You should call MatchUriPattern() before this.
+    // Call the resource's action.
+    // You should call matchUriPattern() before this.
     $app->callResourceAction();
     
     // Send the response to the client.
