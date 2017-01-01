@@ -83,7 +83,7 @@ A RESTful API framework for the PHP language.
 
 7.  You may quickly test this using the built-in PHP server:
     ```bash
-    $ php -S localhost:8000
+    $ php -S localhost:8800
     ```
     
-    Going to http://localhost:8000/users will now display "List users...".
+    Going to http://localhost:8800/users will now display "List users...".
