@@ -68,4 +68,9 @@ $app->callResourceAction();
 $app->respond();
 ```
 
+You may quickly test this using the built-in PHP server:
+```bash
+$ php -S localhost:8000
+```
+
 Going to http://localhost:8000/users will now display "List users...".
