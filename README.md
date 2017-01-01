@@ -10,17 +10,30 @@ A RESTful API framework for the PHP language.
     $ mkdir raproj && cd raproj
     ```
 
-2.  Install the raframework by [Composer](https://getcomposer.org/)
+2.  Create a `composer.json` file with the following contents:
+    ```json
+    {
+      "require": {
+        "raframework/raframework": "0.0.6"
+      },
+      "autoload": {
+        "psr-4": {
+          "App\\": "App/"
+        }
+      }
+    }
+    ```
+3.  Install the raframework by [Composer](https://getcomposer.org/)
     ```bash
-    $ composer require raframework/raframework
+    $ composer install
     ```
 
-3.  Make the resource classes directory
+4.  Make the resource classes directory
     ```bash
     $ mkdir -p App/Resource
     ```
 
-4.  Create an `App/Resource/Users.php` file with the following contents:
+5.  Create an `App/Resource/Users.php` file with the following contents:
     ```php
     <?php
     
@@ -42,7 +55,7 @@ A RESTful API framework for the PHP language.
     }
     ```
 
-5.  Create an index.php file with the following contents:
+6.  Create an index.php file with the following contents:
 
     ```php
     <?php
@@ -68,7 +81,7 @@ A RESTful API framework for the PHP language.
     $app->respond();
     ```
 
-6.  You may quickly test this using the built-in PHP server:
+7.  You may quickly test this using the built-in PHP server:
     ```bash
     $ php -S localhost:8000
     ```
