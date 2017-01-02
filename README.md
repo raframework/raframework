@@ -71,14 +71,14 @@ A RESTful API framework for the PHP language.
     $app = new Ra\App($uriPatterns);
     
     // Match the route, and set the resource's action correctly.
-    $app->matchUriPattern();
-    
+    $app->matchUriPattern()
+
     // Call the resource's action.
     // You should call matchUriPattern() before this.
-    $app->callResourceAction();
+    ->callResourceAction()
     
     // Send the response to the client.
-    $app->respond();
+    ->respond();
     ```
 
 7.  You may quickly test this using the built-in PHP server:
