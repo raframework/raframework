@@ -2,7 +2,7 @@
   "name": "raframework/raframework",
   "description": "A RESTful API framework",
   "require": {
-    "php": ">=5.5.30"
+    "php": ">=5.4.0"
   },
   "autoload": {
     "psr-4": {
