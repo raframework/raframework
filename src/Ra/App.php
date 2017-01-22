@@ -174,7 +174,7 @@ class App
     private function logException(\Exception $e)
     {
         trigger_error(
-            'Unhandled exception \'' . get_class($e)  .'\' with message \'' . $e->getMessage() . '\''
+            'RAFramework: Unhandled exception \'' . get_class($e)  .'\' with message \'' . $e->getMessage() . '\''
             . ' in ' . $e->getFile() . ':' . $e->getLine() . "\nStack trace:\n" . $e->getTraceAsString(),
             E_USER_WARNING
         );
