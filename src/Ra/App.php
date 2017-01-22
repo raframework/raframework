@@ -62,6 +62,7 @@ class App
                 $this->handleException($e);
             }
         }
+
         return $this;
     }
 
@@ -74,18 +75,42 @@ class App
                 $this->handleException($e);
             }
         }
+
         return $this;
     }
 
-    public function call($callable, $ignoreException = false)
+    /**
+     * Call the callable `$callable` function with `$request` & `$response` arguments.
+     *
+     * @param $callable callable function
+     * @param bool $ignoreException Deprecated, use callIgnoreException() instead.
+     * @return $this|App
+     */
+    public function call(callable $callable, $ignoreException = false)
     {
-        if ($ignoreException || $this->exception === null) {
+        if ($ignoreException) {
+            return $this->callIgnoreException($callable);
+        }
+
+        if ($this->exception === null) {
             try {
                 call_user_func($callable, $this->request, $this->response);
             } catch (\Exception $e) {
                 $this->handleException($e);
             }
         }
+
+        return $this;
+    }
+
+    public function callIgnoreException(callable $callable)
+    {
+        try {
+            call_user_func($callable, $this->request, $this->response);
+        } catch (\Exception $e) {
+            $this->logException($e);
+        }
+
         return $this;
     }
 
@@ -124,7 +149,7 @@ class App
         $this->exception = $e;
         if ($this->exceptionHandler) {
             try {
-                return call_user_func($this->exceptionHandler, $e, $this->request, $this->response);
+                call_user_func($this->exceptionHandler, $e, $this->request, $this->response);
             } catch (\Exception $residualException) {
                 $this->sysHandleException($residualException);
             }
@@ -142,11 +167,16 @@ class App
             $this->response->withStatus(404);
         } else {
             $this->response->withStatus(500);
-            trigger_error(
-                'Unhandled exception \'' . get_class($e)  .'\' with message \'' . $e->getMessage() . '\''
-                . ' in ' . $e->getFile() . ':' . $e->getLine() . "\nStack trace:\n" . $e->getTraceAsString(),
-                E_USER_WARNING
-            );
+            $this->logException($e);
         }
+    }
+
+    private function logException(\Exception $e)
+    {
+        trigger_error(
+            'Unhandled exception \'' . get_class($e)  .'\' with message \'' . $e->getMessage() . '\''
+            . ' in ' . $e->getFile() . ':' . $e->getLine() . "\nStack trace:\n" . $e->getTraceAsString(),
+            E_USER_WARNING
+        );
     }
 }
