@@ -83,15 +83,10 @@ class App
      * Call the callable `$callable` function with `$request` & `$response` arguments.
      *
      * @param $callable callable function
-     * @param bool $ignoreException Deprecated, use callIgnoreException() instead.
      * @return $this|App
      */
-    public function call(callable $callable, $ignoreException = false)
+    public function call(callable $callable)
     {
-        if ($ignoreException) {
-            return $this->callIgnoreException($callable);
-        }
-
         if ($this->exception === null) {
             try {
                 call_user_func($callable, $this->request, $this->response);

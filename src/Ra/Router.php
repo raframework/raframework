@@ -94,6 +94,10 @@ class Router
 
     public function callResourceAction()
     {
+        if (empty($this->resourceClass)) {
+            throw new \BadMethodCallException('You should provide the \'resourceClass\' by calling App.matchUriPattern() before App.callResourceAction().');
+        }
+
         $classObject = new $this->resourceClass();
 
         return call_user_func(array($classObject, $this->resourceAction), $this->request, $this->response);
