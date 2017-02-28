@@ -14,7 +14,7 @@ A RESTful API framework for the PHP language.
     ```json
     {
       "require": {
-        "raframework/raframework": "0.0.6"
+        "raframework/raframework": "0.0.10"
       },
       "autoload": {
         "psr-4": {
