@@ -80,16 +80,16 @@ class App
     }
 
     /**
-     * Call the callable `$callable` function with `$request` & `$response` arguments.
+     * Call the `$processor` with `$request` & `$response` arguments.
      *
-     * @param $callable callable function
-     * @return $this|App
+     * @param ProcessorInterface $processor
+     * @return $this
      */
-    public function call(callable $callable)
+    public function call(ProcessorInterface $processor)
     {
         if ($this->exception === null) {
             try {
-                call_user_func($callable, $this->request, $this->response);
+                $processor->run($this->request, $this->response);
             } catch (\Exception $e) {
                 $this->handleException($e);
             }
@@ -98,10 +98,16 @@ class App
         return $this;
     }
 
-    public function callIgnoreException(callable $callable)
+    /**
+     * Call the `$processor` with `$request` & `$response` arguments, ignoring exception.
+     *
+     * @param ProcessorInterface $processor
+     * @return $this
+     */
+    public function callIgnoreException(ProcessorInterface $processor)
     {
         try {
-            call_user_func($callable, $this->request, $this->response);
+            $processor->run($this->request, $this->response);
         } catch (\Exception $e) {
             $this->logException($e);
         }

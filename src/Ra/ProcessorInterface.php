@@ -8,7 +8,10 @@
 namespace Ra;
 
 
+use Ra\Http\Request;
+use Ra\Http\Response;
+
 interface ProcessorInterface
 {
-    public function process();
+    public function run(Request $request, Response $response);
 }
