@@ -142,6 +142,7 @@ class Request
         if ($this->serverParams === null) {
             $this->serverParams = $_SERVER;
         }
+
         return $this->serverParams;
     }
 
@@ -150,6 +151,7 @@ class Request
         if ($this->queryParams === null) {
             $this->queryParams = $_GET;
         }
+
         return $this->queryParams;
     }
 
@@ -174,6 +176,7 @@ class Request
             $parsed = $this->bodyParsers[$mediaType]($body);
             $this->bodyParsed = $parsed;
         }
+
         return $this->bodyParsed;
     }
 

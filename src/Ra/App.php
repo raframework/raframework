@@ -37,7 +37,7 @@ class App
     /**
      * Exception handler
      *
-     * @var callable
+     * @var ExceptionHandlerInterface
      */
     private $exceptionHandler;
 
@@ -140,7 +140,7 @@ class App
         return $this;
     }
 
-    public function withExceptionHandler(callable $handler)
+    public function withExceptionHandler(ExceptionHandlerInterface $handler)
     {
         $this->exceptionHandler = $handler;
     }
@@ -150,7 +150,7 @@ class App
         $this->exception = $e;
         if ($this->exceptionHandler) {
             try {
-                call_user_func($this->exceptionHandler, $e, $this->request, $this->response);
+                $this->exceptionHandler->handle($e, $this->request, $this->response);
             } catch (\Exception $residualException) {
                 $this->sysHandleException($residualException);
             }
