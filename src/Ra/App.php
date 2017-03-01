@@ -89,7 +89,7 @@ class App
     {
         if ($this->exception === null) {
             try {
-                $processor->run($this->request, $this->response);
+                $processor->process($this->request, $this->response);
             } catch (\Exception $e) {
                 $this->handleException($e);
             }
@@ -107,7 +107,7 @@ class App
     public function callIgnoreException(ProcessorInterface $processor)
     {
         try {
-            $processor->run($this->request, $this->response);
+            $processor->process($this->request, $this->response);
         } catch (\Exception $e) {
             $this->logException($e);
         }

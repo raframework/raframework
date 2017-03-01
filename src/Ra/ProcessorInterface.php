@@ -13,5 +13,5 @@ use Ra\Http\Response;
 
 interface ProcessorInterface
 {
-    public function run(Request $request, Response $response);
+    public function process(Request $request, Response $response);
 }
