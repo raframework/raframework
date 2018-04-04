@@ -40,6 +40,9 @@ class Router
         Request::METHOD_DELETE => 'delete',
         Request::METHOD_PUT => 'update',
         Request::METHOD_GET => 'get',
+        Request::METHOD_PATCH => 'patch',
+        Request::METHOD_HEAD => 'head',
+        Request::METHOD_OPTIONS => 'options',
     ];
 
     /**
